@@ -7,6 +7,7 @@ class Application(tk.Frame):
         # self.pack()
         
         self.info = {}
+        self.stats = {}
 
         self.create_labels()
         self.create_widgets()
@@ -18,27 +19,19 @@ class Application(tk.Frame):
         tk.Label(self.master, text="Race:").grid(row=3)
         tk.Label(self.master, text="Starting Level:").grid(row=4)
         tk.Label(self.master, text="Character Alignment:").grid(row=5)
-        tk.Label(self.master, text="Strength:").grid(row=6)
+
+        tk.Label(self.master, text="Strength:").grid(row=0, column=3)
+        tk.Label(self.master, text="Dexterity:").grid(row=1, column=3)
+        tk.Label(self.master, text="Constitution:").grid(row=2, column=3)
+        tk.Label(self.master, text="Intelligence:").grid(row=3, column=3)
+        tk.Label(self.master, text="Wisdom:").grid(row=4, column=3)
+        tk.Label(self.master, text="Charisma:").grid(row=5, column=3)
         
 
     def create_widgets(self):
         # InputValidation Command
 
-        # valid percent substitutions (from the Tk entry man page)
-        # note: you only have to register the ones you need; this
-        # example registers them all for illustrative purposes
-        #
-        # %d = Type of action (1=insert, 0=delete, -1 for others)
-        # %i = index of char string to be inserted/deleted, or -1
-        # %P = value of the entry if the edit is allowed
-        # %s = value of entry prior to editing
-        # %S = the text string being inserted or deleted, if any
-        # %v = the type of validation that is currently set
-        # %V = the type of validation that triggered the callback
-        #      (key, focusin, focusout, forced)
-        # %W = the tk name of the widget
-        vcmd = (self.register(self.check_stat),
-                '%d', '%i', '%P', '%s', '%S', '%v', '%V', '%W')
+        validation = self.register(self.check_stat)
 
         # Creates the widgets
         self.character_name_entry = tk.Entry(self.master)
@@ -65,7 +58,12 @@ class Application(tk.Frame):
         self.alignment_display.set("Please Select")
         alignment_drop_down = tk.OptionMenu(self.master, self.alignment_display, *alignment_choices)
 
-        self.strength_entry = tk.Entry(self.master, validate="focusout", validatecommand=vcmd)
+        self.strength_entry = tk.Entry(self.master, validate="key", validatecommand=(validation, '%S'), width=5)
+        self.dexterity_entry = tk.Entry(self.master, validate="key", validatecommand=(validation, '%S'), width=5)
+        self.constitution_entry = tk.Entry(self.master, validate="key", validatecommand=(validation, '%S'), width=5)
+        self.intelligence_entry = tk.Entry(self.master, validate="key", validatecommand=(validation, '%S'), width=5)
+        self.wisdom_entry = tk.Entry(self.master, validate="key", validatecommand=(validation, '%S'), width=5)
+        self.charisma_entry = tk.Entry(self.master, validate="key", validatecommand=(validation, '%S'), width=5)
 
 
         submit_button = tk.Button(self.master, text="Submit", command=self.submit_info)
@@ -78,7 +76,13 @@ class Application(tk.Frame):
         race_drop_down.grid(row=3, column=1)
         self.starting_level_entry.grid(row=4, column=1)
         alignment_drop_down.grid(row=5, column=1)
-        self.strength_entry.grid(row=6, column=1)
+
+        self.strength_entry.grid(row=0, column=4)
+        self.dexterity_entry.grid(row=1, column=4)
+        self.constitution_entry.grid(row=2, column=4)
+        self.intelligence_entry.grid(row=3, column=4)
+        self.wisdom_entry.grid(row=4, column=4)
+        self.charisma_entry.grid(row=5, column=4)
 
         submit_button.grid(row=8, column=0)
         quit_button.grid(row=8, column=1)
@@ -95,13 +99,19 @@ class Application(tk.Frame):
         self.info['Character Level'] = self.starting_level_entry.get()
         self.info['Character Alignment'] = self.alignment_display.get()
 
+        self.stats['Strength'] = self.strength_entry.get()
+        self.stats['Dexterity'] = self.dexterity_entry.get()
+        self.stats['Consitution'] = self.constitution_entry.get()
+        self.stats['Intelligence'] = self.intelligence_entry.get()
+        self.stats['Wisdom'] = self.wisdom_entry.get()
+        self.stats['Charisma'] = self.charisma_entry.get()
+
+        self.info['Stats'] = self.stats
+
         print(self.info)
 
-    def check_stat(self, d, i, P, s, S, v, V, W):
-        if int(s) >= 1 and int(s) <= 20:
-            return True
-        else:
-            return False
+    def check_stat(self, num):
+        return num.isdigit()
         
 
 
