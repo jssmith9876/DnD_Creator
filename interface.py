@@ -1,4 +1,5 @@
 import tkinter as tk
+from Character import *
 
 class Application(tk.Frame):
     def __init__(self, master=None):
@@ -19,6 +20,7 @@ class Application(tk.Frame):
         tk.Label(self.master, text="Class:").grid(row=3, sticky='e')
         tk.Label(self.master, text="Race:").grid(row=4, sticky='e')
         tk.Label(self.master, text="Character Alignment:").grid(row=5, sticky='e')
+        tk.Label(self.master, text="Character Background:").grid(row=6, sticky='e')
 
         tk.Label(self.master, text="Strength:").grid(row=0, column=2, sticky='e')
         tk.Label(self.master, text="Dexterity:").grid(row=1, column=2, sticky='e')
@@ -84,6 +86,7 @@ class Application(tk.Frame):
         class_drop_down.grid(row=3, column=1)
         race_drop_down.grid(row=4, column=1)
         alignment_drop_down.grid(row=5, column=1)
+        background_drop_down.grid(row=6, column=1)
 
         self.strength_entry.grid(row=0, column=3, sticky='w')
         self.dexterity_entry.grid(row=1, column=3, sticky='w')
@@ -104,7 +107,7 @@ class Application(tk.Frame):
     def submit_info(self):
         self.info['Character name'] = self.character_name_entry.get()
         self.info['Player name'] = self.player_name_entry.get()
-        self.info['Character Level'] = self.starting_level_entry.get()
+        self.info['Character level'] = self.starting_level_entry.get()
         self.info['Class'] = self.class_display.get()
         self.info['Race'] = self.race_display.get()
         self.info['Character Alignment'] = self.alignment_display.get()
@@ -119,7 +122,8 @@ class Application(tk.Frame):
 
         self.info['Stats'] = self.stats
 
-        print(self.info)
+        new_character = Character(self.info)
+        new_character.show()
 
     def check_stat(self, num):
         return num.isdigit()

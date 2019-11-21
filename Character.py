@@ -1,19 +1,41 @@
 class Character:
-    def __init__(self, character_name, player_name, level 
-                character_alignment, character_race):
-        self.character_name = character_name
-        self.player_name = player_name
-        self.character_alignment = character_alignment
-        self.level = level
-    
+    def __init__(self, info):
+        self.info = info
+        self.character_name = info['Character name']
+        self.player_name = info['Player name']
+        self.character_level = info['Character level']
+        self.class_ = info['Class']
+        self.race_ = info['Race']
+        self.character_alignment = info['Character Alignment']
+        self.background = info['Background']
 
-        # self.character_class = character_class
-        # self.character_race = character_race
+        self.stats = {}
+        for key in info['Stats']:
+            self.stats[key] = int(info['Stats'][key])
+
+        
+        self.alter_stats()
+
+        
+
 
     def show(self):
-        print("Character: " + str(self.character_name))
-        print("Class: ")
-        print("Level: " + str(self.level))
-        print("Playe: " + str(self.player_name))
-        print("Race: ")
-        print("Alignment: " + str(self.character_alignment))
+        for key in self.info:
+            if key != 'Stats':
+                print(key, end=": ")
+                print(self.info[key])
+            else:
+                print('Stats: ', end="")
+                print(self.stats)
+    
+    def alter_stats(self):
+        # Check races
+        if self.race_ == 'Dragonborn':
+            self.stats['Strength'] += 2
+            self.stats['Charisma'] += 1
+        elif self.race_ == 'Dwarf':
+            self.stats['Constitution'] += 2
+
+        # Check Backgrounds
+        
+        
