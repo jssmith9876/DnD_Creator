@@ -115,7 +115,7 @@ class Application(tk.Frame):
 
         self.stats['Strength'] = self.strength_entry.get()
         self.stats['Dexterity'] = self.dexterity_entry.get()
-        self.stats['Consitution'] = self.constitution_entry.get()
+        self.stats['Constitution'] = self.constitution_entry.get()
         self.stats['Intelligence'] = self.intelligence_entry.get()
         self.stats['Wisdom'] = self.wisdom_entry.get()
         self.stats['Charisma'] = self.charisma_entry.get()
